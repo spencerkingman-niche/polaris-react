@@ -78,6 +78,10 @@ $spinner-size: rem(20px);
   &.disabled {
     @include button-filled-disabled(color('indigo'));
   }
+
+  &.pressed {
+    @include button-filled-pressed(color('indigo'), color('indigo', 'dark'));
+  }
 }
 
 .destructive {
@@ -86,6 +90,10 @@ $spinner-size: rem(20px);
 
   &.disabled {
     @include button-filled-disabled(color('red'));
+  }
+
+  &.pressed {
+    @include button-filled-pressed(color('red'), color('red', 'dark'));
   }
 }
 
@@ -100,6 +108,14 @@ $spinner-size: rem(20px);
 .destructive.outline {
   @include button-outline(color('red'));
   @include recolor-icon(color('red', 'dark'));
+
+  &.pressed {
+    @include button-outline(
+      color('red', 'dark'),
+      rgba(color('red', 'dark'), 0.03)
+    );
+    @include recolor-icon(color('red', 'darker'));
+  }
 }
 
 .disabled {
@@ -124,6 +140,35 @@ $spinner-size: rem(20px);
   }
 }
 
+.pressed {
+  background: color(sky);
+  border-color: darken(color(sky, dark), 4%);
+  @include pressed-box-shadow;
+
+  &:hover {
+    transition-duration: duration(fast);
+    background: darken(color(sky), 2%);
+    border-color: darken(color(sky, dark), 4%);
+    @include pressed-box-shadow;
+  }
+
+  &:focus {
+    border-color: color('indigo');
+    @include pressed-box-shadow(color('indigo'));
+  }
+
+  &:active {
+    background: darken(color(sky), 4%);
+    border-color: darken(color(sky, dark), 4%);
+    @include pressed-box-shadow;
+  }
+
+  @media (-ms-high-contrast: active) {
+    color: ms-high-contrast-color('button-text');
+    background: ms-high-contrast-color('button-text-background');
+  }
+}
+
 // The way the designs work, we need to do lots of reaching down to
 // target the content in pseudo-selectors, so we need higher specificity
 // in this case.
@@ -139,6 +184,7 @@ $spinner-size: rem(20px);
   box-shadow: none;
   color: color('blue');
 
+  &.pressed,
   &:hover,
   &:focus,
   &:active {
@@ -150,6 +196,7 @@ $spinner-size: rem(20px);
     text-decoration: underline;
   }
 
+  &.pressed,
   &:focus {
     @include high-contrast-button-outline(none);
   }
@@ -158,6 +205,12 @@ $spinner-size: rem(20px);
     @include high-contrast-button-outline;
   }
 
+  &.pressed > .Content {
+    @include plain-button-backdrop(rgba(color('ink', 'lighter'), 0.1));
+  }
+
+  &.pressed:hover:not(.iconOnly) > .Content,
+  &.pressed:active:not(.iconOnly) > .Content,
   &:focus:not(.iconOnly) > .Content {
     @include plain-button-backdrop;
   }
@@ -320,13 +373,24 @@ $spinner-size: rem(20px);
       z-index: 0;
     }
 
+    &.pressed {
+      background: transparent;
+      border-color: currentColor;
+      box-shadow: none;
+
+      // stylelint-disable-next-line selector-max-class
+      &::before {
+        opacity: 0.05;
+      }
+    }
+
     &:hover,
     &:focus,
     &:active {
       background-color: transparent;
       border-color: currentColor;
       &::before {
-        opacity: 0.05;
+        opacity: 0.07;
       }
     }
   }
