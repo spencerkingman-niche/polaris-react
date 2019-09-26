@@ -6,7 +6,7 @@ import {ThemeContext} from '../../../utilities/theme';
 describe('<ThemeProvider />', () => {
   it('mounts', () => {
     const themeProvider = mountWithAppProvider(
-      <ThemeProvider theme={{logo: null}}>
+      <ThemeProvider theme={{logo: {}}}>
         <p>Hello</p>
       </ThemeProvider>,
     );
@@ -41,76 +41,100 @@ describe('<ThemeProvider />', () => {
       </ThemeProvider>,
     );
 
-    const div = wrapper
-      .find(Child)
-      .find('div')
-      .first();
+    const div = wrapper.find(Child).find('div');
 
     expect(div.exists()).toBe(true);
   });
 
-  it('has a default theme', () => {
-    const wrapper = mountWithAppProvider(
-      <ThemeProvider theme={{}}>
-        <p />
-      </ThemeProvider>,
-    );
+  describe('legacy topBar support', () => {
+    it('has a default theme', () => {
+      const wrapper = mountWithAppProvider(
+        <ThemeProvider theme={{}}>
+          <p />
+        </ThemeProvider>,
+      );
 
-    expect(wrapper.find('div').props().style).toBeDefined();
-  });
-
-  it('sets a provided theme', () => {
-    const wrapper = mountWithAppProvider(
-      <ThemeProvider
-        theme={{
-          colors: {
-            topBar: {
-              background: '#108043',
-            },
-          },
-        }}
-      >
-        <p />
-      </ThemeProvider>,
-    );
-
-    expect(wrapper.find('div').props().style).toStrictEqual({
-      '--top-bar-background': '#108043',
-      '--top-bar-background-lighter': 'hsl(147, 63%, 43%, 1)',
-      '--top-bar-color': 'rgb(255, 255, 255)',
+      expect(
+        wrapper
+          .find('div')
+          .first()
+          .props().style,
+      ).toStrictEqual(
+        expect.objectContaining({
+          '--top-bar-background': '#00848e',
+          '--top-bar-background-lighter': '#f9fafb',
+          '--top-bar-color': '#1d9ba4',
+        }),
+      );
     });
-  });
 
-  it('updates themes', () => {
-    const wrapper = mountWithAppProvider(
-      <ThemeProvider
-        theme={{
+    it('sets a provided theme', () => {
+      const wrapper = mountWithAppProvider(
+        <ThemeProvider
+          theme={{
+            colors: {
+              topBar: {
+                background: '#108043',
+              },
+            },
+          }}
+        >
+          <p />
+        </ThemeProvider>,
+      );
+
+      expect(
+        wrapper
+          .find('div')
+          .first()
+          .props().style,
+      ).toStrictEqual(
+        expect.objectContaining({
+          '--top-bar-background': '#108043',
+          '--top-bar-background-lighter': 'hsl(147, 63%, 43%, 1)',
+          '--top-bar-color': 'rgb(255, 255, 255)',
+        }),
+      );
+    });
+
+    it('updates themes', () => {
+      const wrapper = mountWithAppProvider(
+        <ThemeProvider
+          theme={{
+            colors: {
+              topBar: {
+                background: '#108043',
+              },
+            },
+          }}
+        >
+          <p />
+        </ThemeProvider>,
+      );
+
+      wrapper.setProps({
+        theme: {
           colors: {
             topBar: {
-              background: '#108043',
+              background: '#021123',
             },
-          },
-        }}
-      >
-        <p />
-      </ThemeProvider>,
-    );
-
-    wrapper.setProps({
-      theme: {
-        colors: {
-          topBar: {
-            background: '#021123',
           },
         },
-      },
-    });
-    wrapper.update();
+      });
+      wrapper.update();
 
-    expect(wrapper.find('div').props().style).toStrictEqual({
-      '--top-bar-background': '#021123',
-      '--top-bar-background-lighter': 'hsl(213, 74%, 22%, 1)',
-      '--top-bar-color': 'rgb(255, 255, 255)',
+      expect(
+        wrapper
+          .find('div')
+          .first()
+          .props().style,
+      ).toStrictEqual(
+        expect.objectContaining({
+          '--top-bar-background': '#021123',
+          '--top-bar-background-lighter': 'hsl(213, 74%, 22%, 1)',
+          '--top-bar-color': 'rgb(255, 255, 255)',
+        }),
+      );
     });
   });
 });

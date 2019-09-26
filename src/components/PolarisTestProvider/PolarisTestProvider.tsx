@@ -114,7 +114,7 @@ export function PolarisTestProvider({
 function noop() {}
 
 function createThemeContext(theme: Partial<Theme> = {}): Theme {
-  const {logo = null} = theme;
+  const {logo = {}} = theme;
   return {logo};
 }
 

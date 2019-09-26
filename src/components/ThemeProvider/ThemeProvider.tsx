@@ -1,74 +1,61 @@
-import React from 'react';
-import isEqual from 'lodash/isEqual';
+import React, {useMemo} from 'react';
 import {ThemeContext} from '../../utilities/theme';
-import {Theme} from '../../utilities/theme/types';
-import {setColors} from '../../utilities/theme/utils';
-
-interface State {
-  theme: Theme;
-  colors: string[][] | undefined;
-}
+import {ThemeConfig, Theme} from '../../utilities/theme/types';
+import {setColors} from '../../utilities/theme/legacy-utils';
+import {Colors} from '../../utilities/theme/utils';
+import {themeProvider} from '../shared';
 
 interface ThemeProviderProps {
   /** Custom logos and colors provided to select components */
-  theme: Theme;
+  theme: ThemeConfig;
   /** The content to display */
   children?: React.ReactNode;
 }
 
-const defaultTheme = {
-  '--top-bar-background': '#00848e',
-  '--top-bar-color': '#f9fafb',
-  '--top-bar-background-lighter': '#1d9ba4',
-};
+type CustomPropertiesLike = Record<string, string>;
 
-export class ThemeProvider extends React.Component<ThemeProviderProps, State> {
-  state: State = {
-    theme: setThemeContext(this.props.theme),
-    colors: setColors(this.props.theme),
-  };
+export function ThemeProvider({
+  theme: themeConfig,
+  children,
+}: ThemeProviderProps) {
+  const theme = useMemo(() => buildThemeContext(themeConfig), [themeConfig]);
 
-  componentDidUpdate({theme: prevTheme}: ThemeProviderProps) {
-    const {theme} = this.props;
-    if (isEqual(prevTheme, theme)) {
-      return;
-    }
+  const customProperties = useMemo(() => buildCustomProperties(themeConfig), [
+    themeConfig,
+  ]);
 
-    // eslint-disable-next-line react/no-did-update-set-state
-    this.setState({
-      theme: setThemeContext(theme),
-      colors: setColors(theme),
-    });
-  }
-
-  render() {
-    const {
-      theme: {logo = null, ...rest},
-    } = this.state;
-    const {children} = this.props;
-    const styles = this.createStyles() || defaultTheme;
-
-    const theme = {
-      ...rest,
-      logo,
-    };
-
-    return (
-      <ThemeContext.Provider value={theme}>
-        <div style={styles}>{children}</div>
-      </ThemeContext.Provider>
-    );
-  }
-
-  createStyles() {
-    const {colors} = this.state;
-    return colors
-      ? colors.reduce((state, [key, value]) => ({...state, [key]: value}), {})
-      : null;
-  }
+  return (
+    <ThemeContext.Provider value={theme}>
+      <div style={customProperties} {...themeProvider.props}>
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  );
 }
 
-function setThemeContext(ctx: Theme): Theme {
-  const {colors, ...theme} = ctx;
-  return {...theme};
+function buildCustomProperties(themeConfig: ThemeConfig): CustomPropertiesLike {
+  return {
+    ...buildLegacyCustomProperties(themeConfig),
+    ...Colors(themeConfig),
+  };
+}
+
+function buildLegacyCustomProperties(
+  themeConfig: ThemeConfig,
+): CustomPropertiesLike {
+  const legacyColorProperties = setColors(themeConfig);
+
+  if (!legacyColorProperties) {
+    return {};
+  }
+
+  return legacyColorProperties.reduce(
+    (state, [key, value]) => ({...state, [key]: value}),
+    {},
+  );
+}
+
+function buildThemeContext(themeConfig: ThemeConfig): Theme {
+  const {logo} = themeConfig;
+  return {logo};
 }

@@ -2,6 +2,8 @@ import React from 'react';
 import {createPortal} from 'react-dom';
 import {createUniqueIDFactory} from '@shopify/javascript-utilities/other';
 
+import {themeProvider} from '../shared';
+
 export interface PortalProps {
   children?: React.ReactNode;
   idPrefix?: string;
@@ -20,6 +22,7 @@ export class Portal extends React.PureComponent<PortalProps, State> {
   state: State = {isMounted: false};
 
   private portalNode: HTMLElement;
+  private portalContainerNode: HTMLElement | null;
 
   private portalId =
     this.props.idPrefix !== ''
@@ -29,7 +32,13 @@ export class Portal extends React.PureComponent<PortalProps, State> {
   componentDidMount() {
     this.portalNode = document.createElement('div');
     this.portalNode.setAttribute('data-portal-id', this.portalId);
-    document.body.appendChild(this.portalNode);
+    this.portalContainerNode = document.querySelector(
+      `${themeProvider.selector}`,
+    );
+    if (this.portalContainerNode != null) {
+      this.portalContainerNode.appendChild(this.portalNode);
+    }
+
     this.setState({isMounted: true});
   }
 
@@ -41,7 +50,9 @@ export class Portal extends React.PureComponent<PortalProps, State> {
   }
 
   componentWillUnmount() {
-    document.body.removeChild(this.portalNode);
+    if (this.portalContainerNode != null) {
+      this.portalContainerNode.removeChild(this.portalNode);
+    }
   }
 
   render() {
