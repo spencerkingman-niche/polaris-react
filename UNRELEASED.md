@@ -10,6 +10,8 @@ Use [the changelog guidelines](https://git.io/polaris-changelog-guidelines) to f
 
 ### Enhancements
 
+- Added `hasFocusableParent` to `Spinner` ([#2176](https://github.com/Shopify/polaris-react/pull/2176))
+
 ### Bug fixes
 
 ### Documentation
