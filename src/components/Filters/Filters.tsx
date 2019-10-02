@@ -53,6 +53,8 @@ export interface FilterInterface {
 }
 
 export interface FiltersProps {
+  /** Disable all filters */
+  disabled?: boolean;
   /** Currently entered text in the query field */
   queryValue?: string;
   /** Placeholder text for the query field */
@@ -63,6 +65,8 @@ export interface FiltersProps {
   filters: FilterInterface[];
   /** Applied filters which are rendered as tags. The remove callback is called with the respective key */
   appliedFilters?: AppliedFilterInterface[];
+  /** The content to display inline with the controls */
+  children?: React.ReactNode;
   /** Callback when the query field is changed */
   onQueryChange(queryValue: string): void;
   /** Callback when the clear button is triggered */
@@ -73,8 +77,6 @@ export interface FiltersProps {
   onQueryBlur?(): void;
   /** Callback when the query field is focused */
   onQueryFocus?(): void;
-  /** The content to display inline with the controls */
-  children?: React.ReactNode;
 }
 
 type ComposedProps = FiltersProps & WithAppProviderProps;
@@ -111,6 +113,7 @@ class Filters extends React.Component<ComposedProps, State> {
 
   render() {
     const {
+      disabled,
       filters,
       queryValue,
       onQueryBlur,
@@ -165,6 +168,7 @@ class Filters extends React.Component<ComposedProps, State> {
       return (
         <div key={filter.key} className={className}>
           <button
+            disabled={disabled}
             onClick={() => this.toggleFilter(filter.key)}
             className={styles.FilterTrigger}
             id={`${filter.key}ToggleButton`}
@@ -196,7 +200,11 @@ class Filters extends React.Component<ComposedProps, State> {
 
     const rightActionMarkup = (
       <div ref={this.moreFiltersButtonContainer}>
-        <Button onClick={this.toggleFilters} testID="SheetToggleButton">
+        <Button
+          disabled={disabled}
+          onClick={this.toggleFilters}
+          testID="SheetToggleButton"
+        >
           {intl.translate('Polaris.Filters.moreFilters')}
         </Button>
       </div>
@@ -209,11 +217,13 @@ class Filters extends React.Component<ComposedProps, State> {
 
     const filtersControlMarkup = (
       <ConnectedFilterControl
+        disabled={disabled}
         rightPopoverableActions={this.transformFilters(filters)}
         rightAction={rightActionMarkup}
         auxiliary={children}
       >
         <TextField
+          disabled={disabled}
           placeholder={
             queryPlaceholder ||
             intl.translate('Polaris.Filters.filter', {
