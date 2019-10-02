@@ -283,9 +283,7 @@ function overrides() {
 
 function customPropertyTransformer(colors: {
   [key: string]: HSLAColor;
-}): {
-  [key: string]: string;
-} {
+}): CustomPropertiesLike {
   return Object.assign(
     {},
     ...Object.entries(colors).map(([key, value]) => ({
