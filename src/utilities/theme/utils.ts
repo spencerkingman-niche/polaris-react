@@ -4,19 +4,15 @@ import {isLight} from '../color-validation';
 import {ThemeConfig, Theme, CustomPropertiesLike} from './types';
 import {setColors} from './legacy-utils';
 
-// TODO: Move this to a settings prop on app provider and
-// make available through context
-enum FakeSetting {
-  Theming = 1,
-  // Theming = 0,
-}
-
 export function buildCustomProperties(
   themeConfig: ThemeConfig,
+  globalTheming?: boolean,
 ): CustomPropertiesLike {
+  const colors = globalTheming === true ? Colors(themeConfig) : {};
+
   return {
     ...setColors(themeConfig),
-    ...Colors(themeConfig),
+    ...colors,
   };
 }
 
@@ -25,13 +21,10 @@ export function buildThemeContext(themeConfig: ThemeConfig): Theme {
   return {logo};
 }
 
-function Colors(theme: ThemeConfig) {
+export function Colors(theme: ThemeConfig) {
   const {colors = {}} = theme;
 
-  if (FakeSetting.Theming === 0) return;
-
   const {
-    // surface = '#111213',
     surface = '#FAFAFA',
     onSurface = '#1F2225',
     interactive = '#0870D9',
