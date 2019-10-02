@@ -6,12 +6,12 @@ import {constructColorName} from '../color-names';
 import {createLightColor} from '../color-manipulation';
 import {compose} from '../compose';
 
-import {ThemeConfig} from './types';
+import {ThemeConfig, CustomPropertiesLike} from './types';
 import {needsVariantList} from './legacy-config';
 
 export function setColors(
   theme: ThemeConfig | undefined,
-): string[][] | undefined {
+): CustomPropertiesLike {
   let colorPairs;
   const pairs =
     theme && theme.colors && theme.colors.topBar
@@ -29,7 +29,10 @@ export function setColors(
     colorPairs = parseColors([colorKey, pairs]);
   }
 
-  return colorPairs;
+  return colorPairs.reduce(
+    (state, [key, value]) => ({...state, [key]: value}),
+    {},
+  );
 }
 
 export function needsVariant(name: string) {

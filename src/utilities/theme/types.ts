@@ -35,3 +35,5 @@ export interface Theme {
   /** Sets the logo for the top bar and contextual save bar components*/
   logo?: ThemeLogo;
 }
+
+export type CustomPropertiesLike = Record<string, string>;

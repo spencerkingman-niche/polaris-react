@@ -1,7 +1,8 @@
 import {HSLAColor} from '../color-types';
 import {colorToHsla, hslToString, hslToRgb} from '../color-transformers';
 import {isLight} from '../color-validation';
-import {ThemeConfig} from './types';
+import {ThemeConfig, Theme, CustomPropertiesLike} from './types';
+import {setColors} from './legacy-utils';
 
 // TODO: Move this to a settings prop on app provider and
 // make available through context
@@ -10,7 +11,21 @@ enum FakeSetting {
   // Theming = 0,
 }
 
-export function Colors(theme: ThemeConfig) {
+export function buildCustomProperties(
+  themeConfig: ThemeConfig,
+): CustomPropertiesLike {
+  return {
+    ...setColors(themeConfig),
+    ...Colors(themeConfig),
+  };
+}
+
+export function buildThemeContext(themeConfig: ThemeConfig): Theme {
+  const {logo} = themeConfig;
+  return {logo};
+}
+
+function Colors(theme: ThemeConfig) {
   const {colors = {}} = theme;
 
   if (FakeSetting.Theming === 0) return;
