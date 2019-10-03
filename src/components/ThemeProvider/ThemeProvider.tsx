@@ -1,10 +1,10 @@
 import React, {useMemo} from 'react';
-import {ThemeContext} from '../../utilities/theme';
-import {ThemeConfig} from '../../utilities/theme/types';
 import {
+  ThemeContext,
+  ThemeConfig,
   buildThemeContext,
   buildCustomProperties,
-} from '../../utilities/theme/utils';
+} from '../../utilities/theme';
 import {themeProvider} from '../shared';
 import {useFeatures} from '../../utilities/features';
 
