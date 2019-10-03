@@ -1,1 +1,1 @@
-export {Watchamacallit, HeadingProps} from './Watchamacallit';
+export {Watchamacallit, WatchamacallitProps} from './Watchamacallit';

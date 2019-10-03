@@ -240,4 +240,4 @@ export {UnstyledLink, UnstyledLinkProps} from './UnstyledLink';
 
 export {VisuallyHidden, VisuallyHiddenProps} from './VisuallyHidden';
 
-export {Watchamacallit, HeadingProps} from './Watchamacallit';
+export {Watchamacallit, WatchamacallitProps} from './Watchamacallit';

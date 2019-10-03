@@ -3,7 +3,7 @@ import React from 'react'
 import { HeadingTagName } from '../../types'
 import styles from './Watchamacallit.scss'
 
-export interface HeadingProps {
+export interface WatchamacallitProps {
   /**
    * The element name to use for the heading
    * @default 'h2'
@@ -13,6 +13,6 @@ export interface HeadingProps {
   children?: React.ReactNode;
 }
 
-export function Watchamacallit({element: Element = 'h2', children}: HeadingProps) {
+export function Watchamacallit({element: Element = 'h2', children}: WatchamacallitProps) {
   return <Element className={styles.Heading}>{children}</Element>;
 }
