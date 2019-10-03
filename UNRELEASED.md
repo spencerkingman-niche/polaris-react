@@ -19,6 +19,7 @@ Use [the changelog guidelines](https://git.io/polaris-changelog-guidelines) to f
 - Prevented the `onSelect` prop of `Tabs` from changing scroll position ([#2196](https://github.com/Shopify/polaris-react/pull/2196))
 - Fixed 200ms visual delay when activating `Popover` ([#2209](https://github.com/Shopify/polaris-react/pull/2209))
 - Fixed `ResourceList` `Item` deselect ([#1952](https://github.com/Shopify/polaris-react/pull/1952))
+- Moved rendering of the portal component's node within the node created by the theme provider component to enable theming through CSS Custom Properties ([#2224](https://github.com/Shopify/polaris-react/pull/2224))
 
 ### Documentation
 
