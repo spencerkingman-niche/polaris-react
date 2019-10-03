@@ -57,12 +57,7 @@ export function Colors(theme: ThemeConfig) {
   };
 }
 
-function surfaceColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function surfaceColors(color: HSLAColor, lightSurface: boolean) {
   return {
     surface: color,
     surfaceBackground: setLightness(color, lightSurface ? 98 : 7),
@@ -72,12 +67,7 @@ function surfaceColors(
   };
 }
 
-function onSurfaceColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function onSurfaceColors(color: HSLAColor, lightSurface: boolean) {
   return {
     onSurface: color,
     actionOnDark: setLightness(color, 76),
@@ -135,12 +125,7 @@ function onSurfaceColors(
   };
 }
 
-function interactiveColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function interactiveColors(color: HSLAColor, lightSurface: boolean) {
   return {
     interactive: color,
     interactiveAction: setLightness(color, lightSurface ? 44 : 56),
@@ -155,15 +140,9 @@ function interactiveColors(
   };
 }
 
-function interactiveNeutralColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function interactiveNeutralColors(color: HSLAColor, lightSurface: boolean) {
   return {
     interactiveNeutral: color,
-    // TODO: Should the dark version be 0 lightness to save battery?
     interactiveNeutralElevation0: setLightness(color, lightSurface ? 100 : 7),
     interactiveNeutralElevation1: setLightness(color, lightSurface ? 94 : 13),
     interactiveNeutralElevation2: setLightness(color, lightSurface ? 92 : 22),
@@ -173,12 +152,7 @@ function interactiveNeutralColors(
   };
 }
 
-function brandedColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function brandedColors(color: HSLAColor, lightSurface: boolean) {
   return {
     branded: color,
     brandedAction: setLightness(color, 25),
@@ -189,20 +163,13 @@ function brandedColors(
     iconSubduedOnBranded: setLightness(color, 88),
     textOnBranded: setLightness(color, 100),
     textSubduedOnBranded: setLightness(color, 90),
-    // TODO: Audit these branded selected colors.
-    // Only did variable lightness here as it is used for nav and tabs.
     brandedSelected: setLightness(color, lightSurface ? 95 : 5),
     brandedSelectedHovered: setLightness(color, lightSurface ? 81 : 19),
     brandedSelectedPressed: setLightness(color, lightSurface ? 74 : 26),
   };
 }
 
-function criticalColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function criticalColors(color: HSLAColor, lightSurface: boolean) {
   return {
     critical: color,
     criticalDivider: setLightness(color, lightSurface ? 52 : 48),
@@ -213,12 +180,7 @@ function criticalColors(
   };
 }
 
-function warningColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function warningColors(color: HSLAColor, lightSurface: boolean) {
   return {
     warning: color,
     warningDivider: setLightness(color, lightSurface ? 66 : 34),
@@ -229,12 +191,7 @@ function warningColors(
   };
 }
 
-function highlightColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function highlightColors(color: HSLAColor, lightSurface: boolean) {
   return {
     highlight: color,
     highlightDivider: setLightness(color, lightSurface ? 58 : 42),
@@ -245,12 +202,7 @@ function highlightColors(
   };
 }
 
-function successColors(
-  color: HSLAColor,
-  lightSurface: boolean,
-): {
-  [key: string]: HSLAColor;
-} {
+function successColors(color: HSLAColor, lightSurface: boolean) {
   return {
     success: color,
     successDivider: setLightness(color, lightSurface ? 25 : 35),
@@ -261,7 +213,6 @@ function successColors(
   };
 }
 
-// TODO: Review naming for these overrides. Should we namespace?
 function overrides() {
   return {
     [toCssCustomPropertySyntax('none')]: 'none',
@@ -274,9 +225,7 @@ function overrides() {
   };
 }
 
-function customPropertyTransformer(colors: {
-  [key: string]: HSLAColor;
-}): CustomPropertiesLike {
+function customPropertyTransformer(colors: {[key: string]: HSLAColor}) {
   return Object.assign(
     {},
     ...Object.entries(colors).map(([key, value]) => ({
@@ -285,7 +234,7 @@ function customPropertyTransformer(colors: {
   );
 }
 
-function toCssCustomPropertySyntax(camelCase: string): string {
+function toCssCustomPropertySyntax(camelCase: string) {
   return `--${camelCase.replace(/([A-Z0-9])/g, '-$1').toLowerCase()}`;
 }
 
