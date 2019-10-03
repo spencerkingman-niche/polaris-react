@@ -239,3 +239,5 @@ export {Truncate, TruncateProps} from './Truncate';
 export {UnstyledLink, UnstyledLinkProps} from './UnstyledLink';
 
 export {VisuallyHidden, VisuallyHiddenProps} from './VisuallyHidden';
+
+export {Watchamacallit, HeadingProps} from './Watchamacallit';
