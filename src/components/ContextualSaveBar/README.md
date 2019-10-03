@@ -91,7 +91,6 @@ Use the save action to provide an opportunity to save changes. Use the discard a
 <div style={{height: '250px'}}>
   <AppProvider
     theme={{
-      colors: {},
       logo: {
         width: 124,
         contextualSaveBarSource:
@@ -135,7 +134,6 @@ Use the save action to provide an opportunity to save a newly-created resource. 
 <div style={{height: '250px'}}>
   <AppProvider
     theme={{
-      colors: {},
       logo: {
         width: 124,
         contextualSaveBarSource:
@@ -180,7 +178,6 @@ repurpose that space to extend the message contents fully to the left side of th
 <div style={{height: '250px'}}>
   <AppProvider
     theme={{
-      colors: {},
       logo: {
         width: 124,
         contextualSaveBarSource:
