@@ -136,13 +136,21 @@ describe('colorUtilities', () => {
     });
 
     it('returns the hsla color for hsl', () => {
-      expect(colorToHsla('hsla(120, 100%, 50%)')).toBe('hsla(120, 100%, 50%)');
+      expect(colorToHsla('hsla(120, 100%, 50%)')).toStrictEqual({
+        alpha: 1,
+        hue: 120,
+        lightness: 50,
+        saturation: 100,
+      });
     });
 
     it('returns the hsla color for hsla', () => {
-      expect(colorToHsla('hsla(120, 100%, 50%, 0.3)')).toBe(
-        'hsla(120, 100%, 50%, 0.3)',
-      );
+      expect(colorToHsla('hsla(120, 100%, 50%, 0.3)')).toStrictEqual({
+        alpha: 0.3,
+        hue: 120,
+        lightness: 50,
+        saturation: 100,
+      });
     });
   });
 });
